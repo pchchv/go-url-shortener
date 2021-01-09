@@ -1,9 +1,17 @@
 package scripts
 
-func validator(url string) string {
-	return url
-}
+import (
+	"math/rand"
+	"strings"
 
-func shortene(url string) string {
-	return url
+	"github.com/asaskevich/govalidator"
+)
+
+func shortener(url string) string {
+	if govalidator.IsRequestURL(url) == true {
+		if strings.Contains(url, "://") {
+			url = url[strings.Index(url, "://")+3:]
+		}
+		return url[:rand.Intn(4)]
+	}
 }
