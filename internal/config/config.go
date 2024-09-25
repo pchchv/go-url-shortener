@@ -1,14 +1,13 @@
 package config
 
 import (
-	"log"
-
-	"github.com/joho/godotenv"
+	"github.com/pchchv/env"
+	"github.com/pchchv/golog"
 )
 
 func init() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Print("Error loading .env file: ", err)
+	// Load values from .env into the system
+	if err := env.Load(); err != nil {
+		golog.Panic("No .env file found")
 	}
 }
