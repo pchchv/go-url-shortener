@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/pchchv/env"
 	"github.com/pchchv/golog"
@@ -60,4 +61,32 @@ func (c *AppConfig) GetLinkTableName() string {
 		return os.Getenv("LinkTableName")
 	}
 	return tableName
+}
+
+func (c *AppConfig) GetRedisParams() (string, string, int) {
+	address, ok := os.LookupEnv("RedisAddress")
+	if !ok {
+		fmt.Println("Need RedisAddress environment variable")
+		return c.redisAddress, c.redisPassword, c.redisDB
+	}
+
+	password, ok := os.LookupEnv("RedisPassword")
+	if !ok {
+		fmt.Println("Need RedisPassword environment variable")
+		return address, c.redisPassword, c.redisDB
+	}
+
+	dbStr, ok := os.LookupEnv("RedisDB")
+	if !ok {
+		fmt.Println("Need RedisDB environment variable")
+		return address, password, c.redisDB
+	}
+
+	db, err := strconv.Atoi(dbStr)
+	if err != nil {
+		fmt.Printf("RedisDB environment variable is not a valid integer: %v\n", err)
+		return address, password, c.redisDB
+	}
+
+	return address, password, db
 }
