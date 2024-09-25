@@ -11,3 +11,12 @@ func init() {
 		golog.Panic("No .env file found")
 	}
 }
+
+func getEnvValue(v string) string {
+	// Getting a value. Outputs a panic if the value is missing
+	value, exist := os.LookupEnv(v)
+	if !exist {
+		golog.Panic("Value %v does not exist", v)
+	}
+	return value
+}
