@@ -31,3 +31,14 @@ type AppConfig struct {
 	slackToken      string // Slack token
 	slackChannelID  string // Slack channel ID
 }
+
+func NewConfig() *AppConfig {
+	return &AppConfig{
+		dynamoTableName: "UrlShortenerTable", // default value
+		redisAddress:    "localhost:6379",    // default value
+		redisPassword:   "",                  // default value
+		redisDB:         0,                   // default value
+		slackToken:      "",                  // default value
+		slackChannelID:  "",                  // default value
+	}
+}
