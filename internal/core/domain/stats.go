@@ -1,5 +1,7 @@
 package domain
 
+import "time"
+
 const (
 	PlatformUnknown Platform = iota
 	PlatformInstagram
@@ -20,4 +22,11 @@ func (p Platform) String() string {
 	default:
 		return "Unknown"
 	}
+}
+
+type Stats struct {
+	Id        string    `dynamodbav:"id" json:"id"`
+	Platform  Platform  `dynamodbav:"platform" json:"platform"`
+	LinkID    string    `dynamodbav:"link_id" json:"link_id"`
+	CreatedAt time.Time `dynamodbav:"created_at" json:"created_at"`
 }
