@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/pchchv/env"
@@ -41,4 +42,22 @@ func NewConfig() *AppConfig {
 		slackToken:      "",                  // default value
 		slackChannelID:  "",                  // default value
 	}
+}
+
+func (c *AppConfig) GetSlackParams() (string, string) {
+	slackToken, tokenOK := os.LookupEnv("SlackToken")
+	slackChannelID, channelOK := os.LookupEnv("SlackChannelID")
+	if !tokenOK || !channelOK {
+		return os.Getenv("SlackToken"), os.Getenv("SlackChannelID")
+	}
+	return slackToken, slackChannelID
+}
+
+func (c *AppConfig) GetLinkTableName() string {
+	tableName, ok := os.LookupEnv("LinkTableName")
+	if !ok {
+		fmt.Println("Need LinkTableName environment variable")
+		return os.Getenv("LinkTableName")
+	}
+	return tableName
 }
