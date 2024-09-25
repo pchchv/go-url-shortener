@@ -90,3 +90,12 @@ func (c *AppConfig) GetRedisParams() (string, string, int) {
 
 	return address, password, db
 }
+
+func (c *AppConfig) GetStatsTableName() string {
+	tableName, ok := os.LookupEnv("StastTableName")
+	if !ok {
+		fmt.Println("Need STATS_TABLE environment variable")
+		return os.Getenv("StastTableName")
+	}
+	return tableName
+}
