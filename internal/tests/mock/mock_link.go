@@ -30,3 +30,18 @@ func (m *MockLinkRepo) Get(ctx context.Context, id string) (domain.Link, error) 
 	}
 	return domain.Link{}, nil
 }
+
+func (m *MockLinkRepo) Create(ctx context.Context, link domain.Link) error {
+	m.Links = append(m.Links, link)
+	return nil
+}
+
+func (m *MockLinkRepo) Delete(ctx context.Context, id string) error {
+	for i, link := range m.Links {
+		if link.Id == id {
+			m.Links = append(m.Links[:i], m.Links[i+1:]...)
+			break
+		}
+	}
+	return nil
+}
