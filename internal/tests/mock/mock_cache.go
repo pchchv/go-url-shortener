@@ -1,6 +1,10 @@
 package mock
 
-import "time"
+import (
+	"context"
+	"errors"
+	"time"
+)
 
 type MockRedisCache struct {
 	Store map[string]string
@@ -12,4 +16,14 @@ func NewMockRedisCache() *MockRedisCache {
 		Store: make(map[string]string),
 		TTL:   make(map[string]time.Time),
 	}
+}
+
+func (m *MockRedisCache) Delete(ctx context.Context, key string) error {
+	if _, ok := m.Store[key]; !ok {
+		return errors.New("key not found")
+	}
+
+	delete(m.Store, key)
+	delete(m.TTL, key)
+	return nil
 }
