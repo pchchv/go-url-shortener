@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	ddbtypes "github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/pchchv/go-url-shortener/internal/core/domain"
 )
 
@@ -47,4 +48,25 @@ func (d *LinkRepository) All(ctx context.Context) ([]domain.Link, error) {
 	}
 
 	return links, nil
+}
+
+func (d *LinkRepository) Get(ctx context.Context, id string) (domain.Link, error) {
+	link := domain.Link{}
+	input := &dynamodb.GetItemInput{
+		TableName: &d.tableName,
+		Key: map[string]ddbtypes.AttributeValue{
+			"id": &ddbtypes.AttributeValueMemberS{Value: id},
+		},
+	}
+
+	result, err := d.client.GetItem(ctx, input)
+	if err != nil {
+		return link, fmt.Errorf("failed to get item from DynamoDB: %w", err)
+	}
+
+	if err = attributevalue.UnmarshalMap(result.Item, &link); err != nil {
+		return link, fmt.Errorf("failed to unmarshal data from DynamoDB: %w", err)
+	}
+
+	return link, nil
 }
