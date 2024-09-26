@@ -44,3 +44,10 @@ func (service *StatsService) Delete(ctx context.Context, linkID string) error {
 	}
 	return nil
 }
+
+func (service *StatsService) GetStatsByLinkID(ctx context.Context, linkID string) (stats []domain.Stats, err error) {
+	if stats, err = service.port.GetStatsByLinkID(ctx, linkID); err != nil {
+		return []domain.Stats{}, fmt.Errorf("failed to get stats for identifier '%s': %w", linkID, err)
+	}
+	return stats, nil
+}
