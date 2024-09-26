@@ -1,6 +1,11 @@
 package cache
 
-import "github.com/go-redis/redis/v8"
+import (
+	"context"
+	"time"
+
+	"github.com/go-redis/redis/v8"
+)
 
 type RedisCache struct {
 	client *redis.Client
@@ -13,4 +18,19 @@ func NewRedisCache(address string, password string, db int) *RedisCache {
 		DB:       db,
 	})
 	return &RedisCache{client: client}
+}
+
+func (r *RedisCache) Get(ctx context.Context, key string) (val string, err error) {
+	if val, err = r.client.Get(ctx, key).Result(); err == redis.Nil {
+		return "", nil
+	}
+	return val, err
+}
+
+func (r *RedisCache) Set(ctx context.Context, key string, val string) error {
+	return r.client.Set(ctx, key, val, time.Minute).Err()
+}
+
+func (r *RedisCache) Delete(ctx context.Context, key string) error {
+	return r.client.Del(ctx, key).Err()
 }
