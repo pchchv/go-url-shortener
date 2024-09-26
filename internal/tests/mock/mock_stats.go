@@ -43,3 +43,13 @@ func (m *MockStatsRepo) Delete(ctx context.Context, id string) error {
 	}
 	return nil
 }
+
+func (m *MockStatsRepo) GetStatsByLinkID(ctx context.Context, linkID string) ([]domain.Stats, error) {
+	var stats []domain.Stats
+	for _, stat := range m.Stats {
+		if stat.LinkID == linkID {
+			stats = append(stats, stat)
+		}
+	}
+	return stats, nil
+}
