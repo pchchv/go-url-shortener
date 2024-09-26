@@ -30,3 +30,17 @@ func (service *StatsService) Get(ctx context.Context, statsID string) (stats dom
 	}
 	return stats, nil
 }
+
+func (service *StatsService) Create(ctx context.Context, data domain.Stats) error {
+	if err := service.port.Create(ctx, data); err != nil {
+		return fmt.Errorf("failed to create stats: %w", err)
+	}
+	return nil
+}
+
+func (service *StatsService) Delete(ctx context.Context, linkID string) error {
+	if err := service.port.Delete(ctx, linkID); err != nil {
+		return fmt.Errorf("failed to delete stats for identifier '%s': %w", linkID, err)
+	}
+	return nil
+}
