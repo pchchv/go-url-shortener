@@ -68,3 +68,34 @@ func (d *StatsRepository) Get(ctx context.Context, id string) (domain.Stats, err
 
 	return stats, nil
 }
+
+func (d *StatsRepository) Create(ctx context.Context, stats domain.Stats) error {
+	item, err := attributevalue.MarshalMap(stats)
+	if err != nil {
+		return fmt.Errorf("failed to marshal data: %w", err)
+	}
+
+	input := &dynamodb.PutItemInput{
+		TableName: &d.tableName,
+		Item:      item,
+	}
+	if _, err = d.client.PutItem(ctx, input); err != nil {
+		return fmt.Errorf("failed to put item to DynamoDB: %w", err)
+	}
+
+	return nil
+}
+
+func (d *StatsRepository) Delete(ctx context.Context, id string) error {
+	input := &dynamodb.DeleteItemInput{
+		TableName: &d.tableName,
+		Key: map[string]ddbtypes.AttributeValue{
+			"id": &ddbtypes.AttributeValueMemberS{Value: id},
+		},
+	}
+	if _, err := d.client.DeleteItem(ctx, input); err != nil {
+		return fmt.Errorf("failed to delete item from DynamoDB: %w", err)
+	}
+
+	return nil
+}
