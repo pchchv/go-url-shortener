@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"net/http"
+	"net/url"
+	"regexp"
 
 	"github.com/aws/aws-lambda-go/events"
 )
@@ -18,4 +20,16 @@ func ServerError(err error) (events.APIGatewayProxyResponse, error) {
 		StatusCode: http.StatusInternalServerError,
 		Body:       err.Error(),
 	}, nil
+}
+
+func IsValidLink(u string) bool {
+	re := regexp.MustCompile(`^(http|https)://`)
+	if !re.MatchString(u) {
+		return false
+	}
+
+	if parsedURL, err := url.ParseRequestURI(u); err != nil || parsedURL.Scheme == "" || parsedURL.Host == "" {
+		return false
+	}
+	return true
 }
