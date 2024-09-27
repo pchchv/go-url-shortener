@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"context"
+	"crypto/rand"
 	"fmt"
 	"log"
+	"math/big"
 	"os"
 
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -47,4 +49,14 @@ func sendMessageToQueue(ctx context.Context, link domain.Link) {
 	if err != nil {
 		fmt.Printf("Failed to send message to SQS, %v", err.Error())
 	}
+}
+
+func GenerateShortURLID(length int) string {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	result := make([]byte, length)
+	for i := 0; i < length; i++ {
+		charIndex, _ := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		result[i] = charset[charIndex.Int64()]
+	}
+	return string(result)
 }
