@@ -28,6 +28,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding v1.11.5 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/endpoint-discovery v1.9.19 // indirect
 	github.com/aws/aws-sdk-go-v2/service/internal/presigned-url v1.11.20 // indirect
+	github.com/aws/aws-sdk-go-v2/service/sqs v1.35.2
 	github.com/aws/aws-sdk-go-v2/service/sso v1.23.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/ssooidc v1.27.2 // indirect
 	github.com/aws/aws-sdk-go-v2/service/sts v1.31.2 // indirect
