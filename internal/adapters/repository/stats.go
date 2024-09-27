@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	ddbtypes "github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
+	"github.com/aws/aws-sdk-go/aws"
 	"github.com/pchchv/go-url-shortener/internal/core/domain"
 )
 
@@ -98,4 +99,25 @@ func (d *StatsRepository) Delete(ctx context.Context, id string) error {
 	}
 
 	return nil
+}
+
+func (d *StatsRepository) GetStatsByLinkID(ctx context.Context, linkID string) ([]domain.Stats, error) {
+	input := &dynamodb.ScanInput{
+		TableName: &d.tableName,
+		ExpressionAttributeValues: map[string]ddbtypes.AttributeValue{
+			":linkID": &ddbtypes.AttributeValueMemberS{Value: linkID},
+		},
+		FilterExpression: aws.String("link_id = :linkID"),
+	}
+	result, err := d.client.Scan(ctx, input)
+	if err != nil {
+		return nil, fmt.Errorf("failed to scan table: %w", err)
+	}
+
+	stats := []domain.Stats{}
+	if err = attributevalue.UnmarshalListOfMaps(result.Items, &stats); err != nil {
+		return nil, fmt.Errorf("failed to unmarshal data: %w", err)
+	}
+
+	return stats, nil
 }
