@@ -3,6 +3,8 @@
 This URL shortening service, based on Go and Hexagonal architecture, uses a serverless approach for efficient scalability and performance. It leverages various AWS services to provide a reliable, maintainable, and highly available URL shortening service.
 
 - [Technologies Used](#technologies-used)
+- [System Architecture](#system-architecture)
+- [Class Diagram](#class-diagram)
 
 ## Technologies Used
 
@@ -15,3 +17,16 @@ This URL shortening service, based on Go and Hexagonal architecture, uses a serv
 - **AWS Lambda**: A serverless compute service that lets you run code without provisioning or managing servers, automatically scaling with usage.
 - **AWS CloudFront**: A fast content delivery network (CDN) service that securely delivers data, videos, applications, and APIs to customers globally with low latency and high transfer speeds.
 - **AWS API Gateway**: A fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale.
+
+## System Architecture
+
+![system design](./system_design.png)
+
+## Class Diagram
+
+| LINK         |        |   |       |   | STATS        |        |
+| ------------ | ------ | - | ----- | - | ------------ | ------ |
+| id (PK)      | string |   |       |   | id (PK)      | string |
+| original_url | string |   | 1 → n |   | platform     | int    |
+| created_at   | Date   |   |       |   | original_url | string |
+|              |        |   |       |   | created_at   | Date   |
