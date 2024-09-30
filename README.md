@@ -18,12 +18,12 @@ This URL shortening service, based on Go and Hexagonal architecture, uses a serv
 
 ## Class Diagram
 
-| LINK         |        |   |       |   | STATS        |        |
-| ------------ | ------ | - | ----- | - | ------------ | ------ |
-| id (PK)      | string |   |       |   | id (PK)      | string |
-| original_url | string |   | 1 → n |   | platform     | int    |
-| created_at   | Date   |   |       |   | original_url | string |
-|              |        |   |       |   | created_at   | Date   |
+| LINK         |        |    |        |    | STATS        |        |
+| :----------- | -----: | -: | :----: | :- | :----------- | -----: |
+| id (PK)      | string |    |        |    | id (PK)      | string |
+| original_url | string | 1  | &rarr; | n  | platform     | int    |
+| created_at   | Date   |    |        |    | original_url | string |
+|              |        |    |        |    | created_at   | Date   |
 
 ## Installation
 
