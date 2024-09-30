@@ -9,6 +9,7 @@ This URL shortening service, based on Go and Hexagonal architecture, uses a serv
   - [Deploying to AWS Lambda](#deploying-to-aws-lambda)
   - [Running Tests](#running-tests)
   - [Cleaning Up](#cleaning-up)
+- [Hexagonal Architecture](#hexagonal-architecture)
 - [Technologies Used](#technologies-used)
 
 ## System Architecture
@@ -69,6 +70,17 @@ make build
   ```sh
   make delete
   ```
+
+## Hexagonal Architecture
+
+Hexagonal architecture in a serverless context, specifically using Go language, combines modern architectural patterns with the agility and scalability of serverless computing.
+
+**Core Concept** of hexagonal architecture, also known as ports and adapters architecture, is designed to create a loosely coupled application that isolates the core logic from external concerns. The idea is to allow the application to be equally driven by users, programs, automated tests or batch scripts, and to be developed and tested in isolation from the devices and databases on which it will later run.
+
+**Ports** are interfaces that define how data can enter and leave the application or system.
+**Adapters** are implementations that interact with the outside world, such as a database, a web server, or other systems.
+
+To learn more, go to the [AWS blog](https://aws.amazon.com/blogs/compute/developing-evolutionary-architecture-with-aws-lambda).
 
 ## Technologies Used
 
