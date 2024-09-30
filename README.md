@@ -5,6 +5,11 @@ This URL shortening service, based on Go and Hexagonal architecture, uses a serv
 - [Technologies Used](#technologies-used)
 - [System Architecture](#system-architecture)
 - [Class Diagram](#class-diagram)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Deploying to AWS Lambda](#deploying-to-aws-lambda)
+  - [Running Tests](#running-tests)
+  - [Cleaning Up](#cleaning-up)
 
 ## Technologies Used
 
@@ -30,3 +35,49 @@ This URL shortening service, based on Go and Hexagonal architecture, uses a serv
 | original_url | string |   | 1 → n |   | platform     | int    |
 | created_at   | Date   |   |       |   | original_url | string |
 |              |        |   |       |   | created_at   | Date   |
+
+## Installation
+
+**Clone the repository and build the project**:
+
+```sh
+git clone https://github.com/pchchv/go-url-shortener.git
+cd go-url-shortener
+make build
+```
+
+## Usage
+
+### Deploying to AWS Lambda
+
+- Deploy functions to AWS Lambda using:
+  ```sh
+  make deploy
+  ```
+  This command will use AWS SAM to deploy serverless functions.
+
+### Running Tests
+
+- **Unit Tests**: Run unit tests for specific functions:
+
+  ```sh
+  make unit-test
+  ```
+
+- **Benchmark Tests**: Perform benchmark tests:
+  ```sh
+  make benchmark-test
+  ```
+
+### Cleaning Up
+
+- To clean up the build artifacts:
+
+  ```sh
+  make clean
+  ```
+
+- To delete the deployed stack:
+  ```sh
+  make delete
+  ```
